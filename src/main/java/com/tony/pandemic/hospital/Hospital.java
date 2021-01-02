@@ -37,5 +37,4 @@ public class Hospital implements Serializable {
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Resource resource;
 
-
 }

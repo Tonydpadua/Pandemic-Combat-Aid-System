@@ -3,9 +3,7 @@ package com.tony.pandemic.hospital;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -25,4 +23,17 @@ public class HospitalRestController {
                 .buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Hospital> findById(@PathVariable Long id) {
+        Hospital hospital = this.service.findById(id);
+        return ResponseEntity.ok().body(hospital);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> updateOccupation(@PathVariable Long id, @RequestBody Hospital hospital) {
+        this.service.updateOccupation(hospital, id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

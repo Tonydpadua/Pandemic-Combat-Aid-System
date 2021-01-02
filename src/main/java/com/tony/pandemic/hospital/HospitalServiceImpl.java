@@ -1,5 +1,6 @@
 package com.tony.pandemic.hospital;
 
+import com.tony.pandemic.exception.ObjectNotFoundException;
 import com.tony.pandemic.item.Item;
 import com.tony.pandemic.item.ValidateItens;
 import com.tony.pandemic.localization.Localization;
@@ -7,11 +8,13 @@ import com.tony.pandemic.resource.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class HospitalServiceImpl implements IHospitalService{
+public class HospitalServiceImpl implements IHospitalService {
 
     private IHospitalRepository repository;
     private final ValidateItens validateItens;
@@ -37,4 +40,17 @@ public class HospitalServiceImpl implements IHospitalService{
         return hospital;
     }
 
+    @Override
+    public Hospital findById(Long id) {
+        Optional<Hospital> hospital = this.repository.findById(id);
+        return hospital.orElseThrow(() -> new ObjectNotFoundException
+                ("Object not found! Id: " + id + ", Type: " + Hospital.class.getName()));
+    }
+
+    @Override
+    public void updateOccupation(Hospital hospital, Long id) {
+        this.findById(id);
+        this.repository.updateOccupation(hospital.getPercentageOfOccupation(), id);
+    }
 }
+

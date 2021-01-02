@@ -5,21 +5,16 @@ import com.tony.pandemic.resource.Resource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Entity
-public class Hospital implements Serializable {
+public class HospitalNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -30,12 +25,8 @@ public class Hospital implements Serializable {
 
     private double percentageOfOccupation;
 
-    @OneToOne(cascade = CascadeType.ALL)
     private Localization localization;
 
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Resource resource;
-
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class HospitalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody HospitalNewDTO hospitalNewDTO) {
+    public ResponseEntity<Void> save(@Valid @RequestBody HospitalNewDTO hospitalNewDTO) {
         Hospital obj = this.service.fromDTO(hospitalNewDTO);
         obj = this.service.save(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

@@ -20,6 +20,18 @@ public class HospitalServiceImpl implements IHospitalService {
     private final ValidateItens validateItens;
 
     @Override
+    public List<Hospital> findAll() {
+        return this.repository.findAll();
+    }
+
+    @Override
+    public Hospital findById(Long id) {
+        Optional<Hospital> hospital = this.repository.findById(id);
+        return hospital.orElseThrow(() -> new ObjectNotFoundException
+                ("Object not found! Id: " + id + ", Type: " + Hospital.class.getName()));
+    }
+
+    @Override
     public Hospital save(Hospital hospital) {
         List<Item> itens = hospital.getResource().getItens();
 
@@ -28,6 +40,12 @@ public class HospitalServiceImpl implements IHospitalService {
         }
         hospital.getResource().setItens(itens);
         return this.repository.save(hospital);
+    }
+
+    @Override
+    public void updateOccupation(Hospital hospital, Long id) {
+        this.findById(id);
+        this.repository.updateOccupation(hospital.getPercentageOfOccupation(), id);
     }
 
     @Override
@@ -40,17 +58,5 @@ public class HospitalServiceImpl implements IHospitalService {
         return hospital;
     }
 
-    @Override
-    public Hospital findById(Long id) {
-        Optional<Hospital> hospital = this.repository.findById(id);
-        return hospital.orElseThrow(() -> new ObjectNotFoundException
-                ("Object not found! Id: " + id + ", Type: " + Hospital.class.getName()));
-    }
-
-    @Override
-    public void updateOccupation(Hospital hospital, Long id) {
-        this.findById(id);
-        this.repository.updateOccupation(hospital.getPercentageOfOccupation(), id);
-    }
 }
 

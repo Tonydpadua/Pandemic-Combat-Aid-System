@@ -1,6 +1,7 @@
 package com.tony.pandemic.hospital;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface IHospitalService {
 
@@ -12,4 +13,6 @@ public interface IHospitalService {
     Hospital findById(Long id);
 
    void updateOccupation(Hospital hospital, Long id);
+
+   List<Hospital> findAll();
 }

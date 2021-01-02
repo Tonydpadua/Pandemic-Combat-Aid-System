@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -14,6 +16,13 @@ import java.net.URI;
 public class HospitalRestController {
 
     private IHospitalService service;
+
+    @GetMapping
+    public ResponseEntity<List<HospitalDTO>> findAll() {
+        List<Hospital> hospitals = this.service.findAll();
+        List<HospitalDTO> listaDTO = hospitals.stream().map(obj -> new HospitalDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listaDTO);
+    }
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody HospitalNewDTO hospitalNewDTO) {

@@ -20,8 +20,8 @@ public class HospitalRestController {
     @GetMapping
     public ResponseEntity<List<HospitalDTO>> findAll() {
         List<Hospital> hospitals = this.service.findAll();
-        List<HospitalDTO> listaDTO = hospitals.stream().map(obj -> new HospitalDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listaDTO);
+        List<HospitalDTO> listDTO = hospitals.stream().map(obj -> new HospitalDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDTO);
     }
 
     @PostMapping

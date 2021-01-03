@@ -1,11 +1,9 @@
 package com.tony.pandemic.hospital;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface IHospitalService {
 
-    @Transactional
     Hospital save(Hospital hospital);
 
     Hospital fromDTO(HospitalDTO objDTO);

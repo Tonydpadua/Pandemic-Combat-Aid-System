@@ -2,13 +2,13 @@ package com.tony.pandemic.hospital;
 
 import com.tony.pandemic.exception.ObjectNotFoundException;
 import com.tony.pandemic.item.Item;
-import com.tony.pandemic.item.ValidateItens;
+import com.tony.pandemic.item.ValidateItems;
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class HospitalServiceImpl implements IHospitalService {
 
     private IHospitalRepository repository;
-    private final ValidateItens validateItens;
+    private ValidateItems validateItems;
 
     @Override
     public List<Hospital> findAll() {
@@ -31,14 +31,15 @@ public class HospitalServiceImpl implements IHospitalService {
                 ("Object not found! Id: " + id + ", Type: " + Hospital.class.getName()));
     }
 
+    @Transactional
     @Override
     public Hospital save(Hospital hospital) {
-        List<Item> itens = hospital.getResource().getItens();
+        List<Item> Items = hospital.getResource().getItems();
 
-        for (int i = 0; i < itens.size(); i++) {
-            this.validateItens.addPoints(itens.get(i));
+        for (int i = 0; i < Items.size(); i++) {
+            this.validateItems.addPoints(Items.get(i));
         }
-        hospital.getResource().setItens(itens);
+        hospital.getResource().setItems(Items);
         return this.repository.save(hospital);
     }
 
@@ -52,7 +53,7 @@ public class HospitalServiceImpl implements IHospitalService {
     public Hospital fromDTO(HospitalNewDTO objNewDTO) {
         Localization localization = new Localization(null, objNewDTO.getLocalization()
                 .getLatitude(), objNewDTO.getLocalization().getLongitude());
-        Resource resource = new Resource(null, objNewDTO.getResource().getItens());
+        Resource resource = new Resource(null, objNewDTO.getResource().getItems());
         Hospital hospital = new Hospital(null, objNewDTO.getName(), objNewDTO.getAddress(), objNewDTO.getCnpj(),
                 objNewDTO.getPercentageOfOccupation(), localization, resource);
         return hospital;

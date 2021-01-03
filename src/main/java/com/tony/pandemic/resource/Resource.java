@@ -27,5 +27,5 @@ public class Resource implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.PERSIST)
-    private List<Item> itens;
+    private List<Item> items;
 }

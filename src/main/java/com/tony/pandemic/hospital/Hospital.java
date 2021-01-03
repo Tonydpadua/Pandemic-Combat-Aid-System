@@ -37,4 +37,10 @@ public class Hospital implements Serializable {
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Resource resource;
 
+    public Hospital(String name, String address, String cnpj, double percentageOfOccupation) {
+        this.name = name;
+        this.address = address;
+        this.cnpj = cnpj;
+        this.percentageOfOccupation = percentageOfOccupation;
+    }
 }

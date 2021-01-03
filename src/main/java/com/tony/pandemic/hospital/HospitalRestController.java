@@ -41,7 +41,8 @@ public class HospitalRestController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> updateOccupation(@PathVariable Long id, @RequestBody Hospital hospital) {
+    public ResponseEntity<Void> updateOccupation(@PathVariable Long id, @RequestBody HospitalDTO hospitalDTO) {
+        Hospital hospital = this.service.fromDTO(hospitalDTO);
         this.service.updateOccupation(hospital, id);
         return ResponseEntity.noContent().build();
     }

@@ -58,5 +58,11 @@ public class HospitalServiceImpl implements IHospitalService {
         return hospital;
     }
 
+    @Override
+    public Hospital fromDTO(HospitalDTO objDTO) {
+        return new Hospital(objDTO.getName(), objDTO.getAddress(), objDTO.getCnpj(),
+                objDTO.getPercentageOfOccupation());
+    }
+
 }
 

@@ -8,6 +8,8 @@ public interface IHospitalService {
     @Transactional
     Hospital save(Hospital hospital);
 
+    Hospital fromDTO(HospitalDTO objDTO);
+
     Hospital fromDTO(HospitalNewDTO objNewDTO);
 
     Hospital findById(Long id);

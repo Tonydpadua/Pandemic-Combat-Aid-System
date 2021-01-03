@@ -22,10 +22,10 @@ public class HospitalNewDTO implements Serializable {
     @Length(min=5,max=100,message="The length must be between 5 and 100 characters")
     private String name;
 
-    @NotEmpty(message = "Name is mandatory")
+    @NotEmpty(message = "Address is mandatory")
     private String address;
 
-    @NotEmpty(message = "Name is mandatory")
+    @NotEmpty(message = "Cnpj is mandatory")
     private String cnpj;
 
     @NotNull

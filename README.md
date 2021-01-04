@@ -144,8 +144,8 @@ List reports **GET**: localhost:8080/hospitals/reports
         "Doctor": "2,00",
         "Nurse": "2,00"
     },
-    "occupatedMostTime": "Hospital Nossa Senhora das Neves 2",
-    "occupatedLeastTime": "Hospital Nossa Senhora das Neves 4"
+    "highOccupationMostTime": "Hospital Nossa Senhora das Neves 2",
+    "lowOccupationMostTime": "Hospital Nossa Senhora das Neves 4"
 }
 ```
 

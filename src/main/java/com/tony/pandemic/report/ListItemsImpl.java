@@ -3,7 +3,6 @@ package com.tony.pandemic.report;
 import com.tony.pandemic.hospital.Hospital;
 import com.tony.pandemic.hospital.IHospitalService;
 import com.tony.pandemic.util.Messages;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -40,20 +39,20 @@ public class ListItemsImpl implements IListItems{
 
         for (Hospital hospital : hospitals) {
             for (int j = 0; j < hospital.getResource().getItems().size(); j++) {
-                if (Messages.ITEM_DOCTOR.equals(hospital.getResource().getItems().get(j).getName())) {
-                    doctorAmount++;
+                if (Messages.ITEM_DOCTOR.equalsIgnoreCase(hospital.getResource().getItems().get(j).getName())) {
+                    doctorAmount += hospital.getResource().getItems().get(j).getAmount();
                 }
-                if (Messages.ITEM_NURSE.equals(hospital.getResource().getItems().get(j).getName())) {
-                    nurseAmount++;
+                if (Messages.ITEM_NURSE.equalsIgnoreCase(hospital.getResource().getItems().get(j).getName())) {
+                    nurseAmount += hospital.getResource().getItems().get(j).getAmount();
                 }
-                if (Messages.ITEM_RESPIRATOR.equals(hospital.getResource().getItems().get(j).getName())) {
-                    respiratorAmount++;
+                if (Messages.ITEM_RESPIRATOR.equalsIgnoreCase(hospital.getResource().getItems().get(j).getName())) {
+                    respiratorAmount += hospital.getResource().getItems().get(j).getAmount();
                 }
-                if (Messages.ITEM_TOMOGRAPH.equals(hospital.getResource().getItems().get(j).getName())) {
-                    tomographAmount++;
+                if (Messages.ITEM_TOMOGRAPH.equalsIgnoreCase(hospital.getResource().getItems().get(j).getName())) {
+                    tomographAmount += hospital.getResource().getItems().get(j).getAmount();
                 }
-                if (Messages.ITEM_AMBULANCE.equals(hospital.getResource().getItems().get(j).getName())) {
-                    ambulanceAmount++;
+                if (Messages.ITEM_AMBULANCE.equalsIgnoreCase(hospital.getResource().getItems().get(j).getName())) {
+                    ambulanceAmount += hospital.getResource().getItems().get(j).getAmount();
                 }
             }
         }

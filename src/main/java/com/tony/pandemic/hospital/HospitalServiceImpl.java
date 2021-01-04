@@ -6,6 +6,9 @@ import com.tony.pandemic.item.ValidateItems;
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -63,6 +66,12 @@ public class HospitalServiceImpl implements IHospitalService {
     public Hospital fromDTO(HospitalDTO objDTO) {
         return new Hospital(objDTO.getName(), objDTO.getAddress(), objDTO.getCnpj(),
                 objDTO.getPercentageOfOccupation());
+    }
+
+    @Override
+    public Page<Hospital> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return this.repository.findAll(pageRequest);
     }
 
 }

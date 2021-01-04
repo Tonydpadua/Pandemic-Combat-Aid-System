@@ -1,6 +1,7 @@
 package com.tony.pandemic.hospital;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,17 @@ public class HospitalRestController {
         Hospital hospital = this.service.fromDTO(hospitalDTO);
         this.service.updateOccupation(hospital, id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/page")
+    public ResponseEntity<Page<HospitalDTO>> findPage(
+            @RequestParam(value="page", defaultValue="0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
+            @RequestParam(value="direction", defaultValue="ASC") String direction) {
+        Page<Hospital> list = this.service.findPage(page, linesPerPage, orderBy, direction);
+        Page<HospitalDTO> listDto = list.map(obj -> new HospitalDTO(obj));
+        return ResponseEntity.ok().body(listDto);
     }
 
 }

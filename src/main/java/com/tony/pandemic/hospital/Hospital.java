@@ -9,8 +9,8 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
@@ -30,6 +30,8 @@ public class Hospital implements Serializable {
 
     private double percentageOfOccupation;
 
+    private LocalDateTime registrationTime;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Localization localization;
 
@@ -42,5 +44,15 @@ public class Hospital implements Serializable {
         this.address = address;
         this.cnpj = cnpj;
         this.percentageOfOccupation = percentageOfOccupation;
+    }
+
+    public Hospital(Long id, String name, String address, String cnpj, double percentageOfOccupation, Localization localization, Resource resource) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.cnpj = cnpj;
+        this.percentageOfOccupation = percentageOfOccupation;
+        this.localization = localization;
+        this.resource = resource;
     }
 }

@@ -19,4 +19,5 @@ public interface IHospitalService {
    List<Hospital> findAll();
 
     Page<Hospital> findPage(Integer page, Integer linesPerPage, String orderBy, String direction);
+
 }

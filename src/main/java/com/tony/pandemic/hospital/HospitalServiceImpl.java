@@ -6,21 +6,28 @@ import com.tony.pandemic.item.ValidateItems;
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class HospitalServiceImpl implements IHospitalService {
 
+    @Autowired
     private IHospitalRepository repository;
+    @Autowired
     private ValidateItems validateItems;
+    DateTimeFormatter formatterHour = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @Override
     public List<Hospital> findAll() {
@@ -43,6 +50,7 @@ public class HospitalServiceImpl implements IHospitalService {
             this.validateItems.addPoints(Items.get(i));
         }
         hospital.getResource().setItems(Items);
+        hospital.setRegistrationTime(LocalDateTime.now());
         return this.repository.save(hospital);
     }
 

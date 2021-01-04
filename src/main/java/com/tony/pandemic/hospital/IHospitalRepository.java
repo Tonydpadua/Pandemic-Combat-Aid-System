@@ -12,7 +12,7 @@ public interface IHospitalRepository extends JpaRepository<Hospital, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Hospital h SET h.percentageOfOccupation=?1 WHERE h.id=?2")
+    @Query("UPDATE Hospital h SET h.percentageOfOccupation=?1, h.registrationTime=CURRENT_TIMESTAMP WHERE h.id=?2")
     void updateOccupation(Double PercentageOfOccupation, long id);
 
 }

@@ -9,6 +9,7 @@ public class ReportServiceImpl implements  IReportService{
 
     private IListItems listItems;
     private IPercentualHospital percentualHospital;
+    private ITimeOccupatedHospital timeOccupatedHospital;
 
     @Override
     public Report makeReport() {
@@ -16,6 +17,8 @@ public class ReportServiceImpl implements  IReportService{
         report.setMediaHospitalItems(this.listItems.listItens());
         report.setPercentageHighOccupation(this.percentualHospital.percentualHighOccupation());
         report.setPercentageLowOccupation(this.percentualHospital.percentualLowOccupation());
+        report.setOccupatedMostTime(this.timeOccupatedHospital.moreOccupatedMostTime());
+        report.setOccupatedLeastTime(this.timeOccupatedHospital.lessOccupatedMostTime());
         return report;
     }
 }

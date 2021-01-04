@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -30,6 +31,8 @@ public class HospitalNewDTO implements Serializable {
 
     @NotNull
     private double percentageOfOccupation;
+
+    private LocalDateTime registrationTime;
 
     private Localization localization;
 

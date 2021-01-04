@@ -1,6 +1,5 @@
 package com.tony.pandemic.report;
 
-import com.tony.pandemic.hospital.Hospital;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +21,10 @@ public class Report implements Serializable {
 
     private String percentageLowOccupation;
 
-    private Map<String,String> mediaHospitalItems = new HashMap<String,String>();
+    private Map<String, String> mediaHospitalItems = new HashMap<String, String>();
 
-    private String occupatedMostTime;
+    private String highOccupationMostTime;
 
-    private String occupatedLeastTime;
+    private String lowOccupationMostTime;
 
 }

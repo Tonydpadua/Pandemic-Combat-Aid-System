@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class ReportServiceImpl implements  IReportService{
+public class ReportServiceImpl implements IReportService {
 
     private IListItems listItems;
     private IPercentualHospital percentualHospital;
@@ -17,8 +17,8 @@ public class ReportServiceImpl implements  IReportService{
         report.setMediaHospitalItems(this.listItems.listItens());
         report.setPercentageHighOccupation(this.percentualHospital.percentualHighOccupation());
         report.setPercentageLowOccupation(this.percentualHospital.percentualLowOccupation());
-        report.setOccupatedMostTime(this.timeOccupatedHospital.moreOccupatedMostTime());
-        report.setOccupatedLeastTime(this.timeOccupatedHospital.lessOccupatedMostTime());
+        report.setHighOccupationMostTime(this.timeOccupatedHospital.moreOccupatedMostTime());
+        report.setLowOccupationMostTime(this.timeOccupatedHospital.lessOccupatedMostTime());
         return report;
     }
 }

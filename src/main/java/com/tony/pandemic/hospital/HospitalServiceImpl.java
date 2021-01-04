@@ -19,15 +19,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class HospitalServiceImpl implements IHospitalService {
 
-    @Autowired
     private IHospitalRepository repository;
-    @Autowired
+
     private ValidateItems validateItems;
-    DateTimeFormatter formatterHour = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @Override
     public List<Hospital> findAll() {

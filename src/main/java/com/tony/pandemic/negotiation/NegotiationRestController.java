@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
-
 @AllArgsConstructor
 @Controller
 @RequestMapping(value = "hospitals/negotiation")
@@ -18,6 +16,6 @@ public class NegotiationRestController {
 
     @PostMapping
     public void negotiationHospitals(@RequestBody InvolvedHospital[] involvedHospitals) {
-        this.service.negotiationHospitals(involvedHospitals[0],involvedHospitals[1]);
+        this.service.negotiationHospitals(involvedHospitals[0], involvedHospitals[1]);
     }
 }

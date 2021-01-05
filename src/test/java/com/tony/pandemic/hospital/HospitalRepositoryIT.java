@@ -31,7 +31,7 @@ public class HospitalRepositoryIT {
     @Test
     public void save() {
         this.createHospital();
-        org.assertj.core.api.Assertions.assertThat(hospital.getName()).isEqualTo("Teste");
+        org.assertj.core.api.Assertions.assertThat(hospital.getName()).isEqualTo("Hospital Samaritano");
     }
 
     private void createHospital() {

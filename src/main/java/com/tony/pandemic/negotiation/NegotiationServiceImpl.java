@@ -37,10 +37,10 @@ public class NegotiationServiceImpl implements INegotiationService {
                 (receptor.getResource().getItems(), receptorHospital.getItems());
 
         if (itemsSolicitor.isEmpty() || itemsReceptor.isEmpty()) {
-            throw new EmptyException("It is not possible to exchange for lack of items");
+            throw new EmptyException("It is not possible to trade for lack of items");
         } else {
-            if (!this.involvedService.validatePoints(itemsSolicitor, itemsReceptor)) {
-                throw new InvalidNegotiationException("It is not possible to exchange");
+            if (!this.involvedService.validatePoints(itemsSolicitor, itemsReceptor, solicitor, receptor)) {
+                throw new InvalidNegotiationException("It is not possible to trade for invalid points");
             } else {
                 this.negotiationHistory.saveNegotiationHistory(solicitor, receptor);
                 solicitor.getResource()
@@ -65,10 +65,14 @@ public class NegotiationServiceImpl implements INegotiationService {
                 for (Item item : receptor.getResource().getItems()) {
                     this.validateItems.addPoints(item);
                 }
-
                 this.hospitalRepository.save(solicitor);
                 this.hospitalRepository.save(receptor);
             }
         }
+    }
+
+    private boolean isOccupationHigh(Hospital solicitor, Hospital receptor) {
+        return true ? solicitor.getPercentageOfOccupation() > 90.0 ||
+                receptor.getPercentageOfOccupation() > 90.0 : false;
     }
 }

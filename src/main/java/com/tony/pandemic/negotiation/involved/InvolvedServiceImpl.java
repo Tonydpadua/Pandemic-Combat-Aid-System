@@ -1,6 +1,7 @@
 package com.tony.pandemic.negotiation.involved;
 
 import com.tony.pandemic.exception.InvalidNegotiationException;
+import com.tony.pandemic.hospital.Hospital;
 import com.tony.pandemic.item.Item;
 import com.tony.pandemic.item.ValidateItems;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,23 @@ public class InvolvedServiceImpl implements IInvolvedService {
     private ValidateItems validateitems;
 
     @Override
-    public boolean validatePoints(List<Item> solicitor, List<Item> receptor) {
+    public boolean validatePoints(List<Item> solicitorItems, List<Item> receptorItems, Hospital solicitor, Hospital receptor) {
         int solicitorPoints = 0, receptorPoints = 0;
-        for (Item items : solicitor) {
+        for (Item items : solicitorItems) {
             solicitorPoints += (items.getValueItem() * items.getAmount() / 4);
         }
-        for (Item items : receptor) {
+        for (Item items : receptorItems) {
             receptorPoints += (items.getValueItem() * items.getAmount());
+        }
+        if (solicitor.getPercentageOfOccupation() > 90.0) {
+            if (solicitorPoints <= receptorPoints && receptor.getPercentageOfOccupation() < 90.0) {
+                return true;
+            }
+        }
+        if (receptor.getPercentageOfOccupation() > 90.0){
+            if (solicitorPoints >= receptorPoints && solicitor.getPercentageOfOccupation() < 90.0) {
+                return true;
+            }
         }
         if (solicitorPoints != receptorPoints)
             return false;

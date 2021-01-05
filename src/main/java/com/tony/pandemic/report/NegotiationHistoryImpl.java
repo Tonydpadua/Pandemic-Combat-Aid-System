@@ -22,5 +22,4 @@ public class NegotiationHistoryImpl implements INegotiationHistory{
         return this.list;
     }
 
-
 }

@@ -6,6 +6,7 @@ import com.tony.pandemic.hospital.Hospital;
 import com.tony.pandemic.hospital.IHospitalRepository;
 import com.tony.pandemic.hospital.IHospitalService;
 import com.tony.pandemic.item.Item;
+import com.tony.pandemic.item.ValidateItems;
 import com.tony.pandemic.negotiation.involved.IInvolvedService;
 import com.tony.pandemic.negotiation.involved.InvolvedHospital;
 import com.tony.pandemic.report.INegotiationHistory;
@@ -22,6 +23,7 @@ public class NegotiationServiceImpl implements INegotiationService {
     private IHospitalRepository hospitalRepository;
     private IHospitalService hospitalService;
     private INegotiationHistory negotiationHistory;
+    private ValidateItems validateItems;
 
     @Override
     public void negotiationHospitals(InvolvedHospital solicitorHospital, InvolvedHospital receptorHospital) {
@@ -56,6 +58,13 @@ public class NegotiationServiceImpl implements INegotiationService {
                 receptor.getResource()
                         .setItems(this.involvedService.removeItems(receptor.getResource().getItems(),
                                 itemsReceptor));
+
+                for (Item item : solicitor.getResource().getItems()) {
+                    this.validateItems.addPoints(item);
+                }
+                for (Item item : receptor.getResource().getItems()) {
+                    this.validateItems.addPoints(item);
+                }
 
                 this.hospitalRepository.save(solicitor);
                 this.hospitalRepository.save(receptor);

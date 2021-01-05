@@ -70,9 +70,4 @@ public class NegotiationServiceImpl implements INegotiationService {
             }
         }
     }
-
-    private boolean isOccupationHigh(Hospital solicitor, Hospital receptor) {
-        return true ? solicitor.getPercentageOfOccupation() > 90.0 ||
-                receptor.getPercentageOfOccupation() > 90.0 : false;
-    }
 }

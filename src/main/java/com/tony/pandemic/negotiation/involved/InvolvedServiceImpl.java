@@ -11,7 +11,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class InvolvedService implements IInvolvedService {
+public class InvolvedServiceImpl implements IInvolvedService {
 
     private ValidateItems validateitems;
 
@@ -19,7 +19,7 @@ public class InvolvedService implements IInvolvedService {
     public boolean validatePoints(List<Item> solicitor, List<Item> receptor) {
         int solicitorPoints = 0, receptorPoints = 0;
         for (Item items : solicitor) {
-            solicitorPoints += (items.getValueItem() * items.getAmount());
+            solicitorPoints += (items.getValueItem() * items.getAmount() / 4);
         }
         for (Item items : receptor) {
             receptorPoints += (items.getValueItem() * items.getAmount());

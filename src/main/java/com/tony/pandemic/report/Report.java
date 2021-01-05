@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -26,5 +27,7 @@ public class Report implements Serializable {
     private String highOccupationMostTime;
 
     private String lowOccupationMostTime;
+
+    private List<String> negotiationHistory;
 
 }

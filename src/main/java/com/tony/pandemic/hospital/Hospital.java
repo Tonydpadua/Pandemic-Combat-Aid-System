@@ -2,7 +2,6 @@ package com.tony.pandemic.hospital;
 
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;

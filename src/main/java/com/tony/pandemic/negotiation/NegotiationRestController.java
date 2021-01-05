@@ -1,6 +1,6 @@
 package com.tony.pandemic.negotiation;
 
-import com.tony.pandemic.negotiation.involved.InvolvedHospital;
+import com.tony.pandemic.negotiation.involved.InvolvedHospitalDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ public class NegotiationRestController {
     private INegotiationService service;
 
     @PostMapping
-    public void negotiationHospitals(@RequestBody InvolvedHospital[] involvedHospitals) {
+    public void negotiationHospitals(@RequestBody InvolvedHospitalDTO[] involvedHospitals) {
         this.service.negotiationHospitals(involvedHospitals[0], involvedHospitals[1]);
     }
 }

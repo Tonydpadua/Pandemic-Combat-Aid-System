@@ -8,7 +8,7 @@ import com.tony.pandemic.hospital.IHospitalService;
 import com.tony.pandemic.item.Item;
 import com.tony.pandemic.item.ValidateItems;
 import com.tony.pandemic.negotiation.involved.IInvolvedService;
-import com.tony.pandemic.negotiation.involved.InvolvedHospital;
+import com.tony.pandemic.negotiation.involved.InvolvedHospitalDTO;
 import com.tony.pandemic.report.INegotiationHistory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class NegotiationServiceImpl implements INegotiationService {
     private ValidateItems validateItems;
 
     @Override
-    public void negotiationHospitals(InvolvedHospital solicitorHospital, InvolvedHospital receptorHospital) {
+    public void negotiationHospitals(InvolvedHospitalDTO solicitorHospital, InvolvedHospitalDTO receptorHospital) {
 
         Hospital solicitor = this.hospitalService.findById(solicitorHospital.getIdHospital());
         Hospital receptor = this.hospitalService.findById(receptorHospital.getIdHospital());

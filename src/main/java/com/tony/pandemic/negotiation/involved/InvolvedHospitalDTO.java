@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class InvolvedHospital {
+public class InvolvedHospitalDTO {
 
     @NotBlank
     private Long idHospital;

@@ -52,7 +52,7 @@ public class HospitalRestController {
     public ResponseEntity<Page<HospitalDTO>> findPage(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
         Page<Hospital> list = this.service.findPage(page, linesPerPage, orderBy, direction);
         Page<HospitalDTO> listDto = list.map(obj -> new HospitalDTO(obj));

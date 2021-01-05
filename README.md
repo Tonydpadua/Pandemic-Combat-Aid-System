@@ -100,6 +100,54 @@ Find all hospitals saved **GET**: localhost:8080/hospitals
 ]
 ```
 
+Find all hospitals with pagination **GET**: localhost:8080/hospitals/page
+
+```json
+{
+    "content": [
+        {
+            "id": 2,
+            "name": "Hospital Nossa Senhora das Neves",
+            "address": "Av. Santa Júlia",
+            "cnpj": "23425345",
+            "percentageOfOccupation": 92.0
+        },
+        {
+            "id": 1,
+            "name": "Hospital Samaritano",
+            "address": "Av. Santa Júlia",
+            "cnpj": "23425345",
+            "percentageOfOccupation": 60.0
+        }
+    ],
+    "pageable": {
+        "sort": {
+            "sorted": true,
+            "unsorted": false,
+            "empty": false
+        },
+        "offset": 0,
+        "pageNumber": 0,
+        "pageSize": 24,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": true,
+    "totalPages": 1,
+    "totalElements": 2,
+    "size": 24,
+    "number": 0,
+    "sort": {
+        "sorted": true,
+        "unsorted": false,
+        "empty": false
+    },
+    "first": true,
+    "numberOfElements": 2,
+    "empty": false
+}
+```
+
 
 Update percentage of occupation **PUT**: localhost:8080/hospitals/occupation/id
 
@@ -135,17 +183,20 @@ Negotiate items **POST**: localhost:8080/hospitals/negotiation
 List reports **GET**: localhost:8080/hospitals/reports
 ```json
 {
-    "percentageHighOccupation": "75,00 %",
-    "percentageLowOccupation": "25,00 %",
+    "percentageHighOccupation": "50,00 %",
+    "percentageLowOccupation": "50,00 %",
     "mediaHospitalItems": {
-        "Ambulance": "2,00",
-        "Respirator": "2,00",
-        "Tomograph": "2,00",
-        "Doctor": "2,00",
-        "Nurse": "2,00"
+        "Ambulance": "10,00",
+        "Respirator": "10,00",
+        "Tomograph": "10,00",
+        "Doctor": "10,00",
+        "Nurse": "10,00"
     },
-    "highOccupationMostTime": "Hospital Nossa Senhora das Neves 2",
-    "lowOccupationMostTime": "Hospital Nossa Senhora das Neves 4"
+    "highOccupationMostTime": "Hospital Nossa Senhora das Neves",
+    "lowOccupationMostTime": "Hospital Samaritano",
+    "negotiationHistory": [
+        "Trade has been made between Hospital Samaritano and Hospital Nossa Senhora das Neves"
+    ]
 }
 ```
 

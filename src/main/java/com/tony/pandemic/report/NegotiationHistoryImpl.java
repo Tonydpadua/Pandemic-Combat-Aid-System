@@ -13,7 +13,7 @@ public class NegotiationHistoryImpl implements INegotiationHistory{
 
     @Override
     public List<String> saveNegotiationHistory(Hospital solicitor, Hospital receptor) {
-        this.list.add("Trade has been made by " + solicitor.getName() + " and " + receptor.getName());
+        this.list.add("Trade has been made between " + solicitor.getName() + " and " + receptor.getName());
         return this.list;
     }
 

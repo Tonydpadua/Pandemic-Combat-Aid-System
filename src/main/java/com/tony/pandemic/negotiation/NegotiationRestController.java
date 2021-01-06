@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping(value = "hospitals/negotiation")
@@ -18,7 +20,7 @@ public class NegotiationRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void negotiationHospitals(@RequestBody InvolvedHospitalDTO[] involvedHospitals) {
-        this.service.negotiationHospitals(involvedHospitals[0], involvedHospitals[1]);
+    public void negotiationHospitals(@RequestBody List<InvolvedHospitalDTO> involvedHospitals) {
+        this.service.negotiationHospitals(involvedHospitals.get(0), involvedHospitals.get(1));
     }
 }

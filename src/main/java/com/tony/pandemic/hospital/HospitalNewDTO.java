@@ -2,9 +2,7 @@ package com.tony.pandemic.hospital;
 
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class HospitalNewDTO implements Serializable {

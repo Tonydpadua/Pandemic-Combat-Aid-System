@@ -19,13 +19,13 @@ public class RestControllerExceptionHandler {
     }
 
     @ExceptionHandler(EmptyException.class)
-    public ResponseEntity<StandardError> empty(ObjectNotFoundException e) {
+    public ResponseEntity<StandardError> empty(EmptyException e) {
         StandardError err = new StandardError(HttpStatus.NOT_ACCEPTABLE.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(err);
     }
 
     @ExceptionHandler(InvalidNegotiationException.class)
-    public ResponseEntity<StandardError> invalidNegotiation(ObjectNotFoundException e) {
+    public ResponseEntity<StandardError> invalidNegotiation(InvalidNegotiationException e) {
         StandardError err = new StandardError(HttpStatus.NOT_ACCEPTABLE.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(err);
     }

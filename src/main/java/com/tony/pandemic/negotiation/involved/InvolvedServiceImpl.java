@@ -56,15 +56,16 @@ public class InvolvedServiceImpl implements IInvolvedService {
     }
 
     @Override
-    public List<Item> removeItems(List<Item> solicitor, List<Item> offer) {
-        for (int i = 0; i < solicitor.size(); i++) {
+    public List<Item> removeItems(Hospital solicitor, List<Item> offer) {
+        List<Item> solicitorItems = solicitor.getResource().getItems();
+        for (int i = 0; i < solicitorItems.size(); i++) {
             for (int j = 0; j < offer.size(); j++) {
-                if (solicitor.get(i).getId() == offer.get(j).getId()) {
-                    solicitor.get(i).setAmount(solicitor.get(i).getAmount() - offer.get(j).getAmount());
+                if (solicitorItems.get(i).getId() == offer.get(j).getId()) {
+                    solicitorItems.get(i).setAmount(solicitorItems.get(i).getAmount() - offer.get(j).getAmount());
                 }
             }
         }
-        return solicitor;
+        return solicitorItems;
     }
 
     @Override

@@ -38,13 +38,11 @@ public class NegotiationServiceImpl implements INegotiationService {
 
         solicitor.getResource().setItems(this.involvedService.addItems(solicitor, itemsReceptor));
 
-        solicitor.getResource().setItems(this.involvedService.removeItems(solicitor.getResource().getItems(),
-                        itemsSolicitor));
+        solicitor.getResource().setItems(this.involvedService.removeItems(solicitor, itemsSolicitor));
 
         receptor.getResource().setItems(this.involvedService.addItems(receptor, itemsSolicitor));
 
-        receptor.getResource().setItems(this.involvedService.removeItems(receptor.getResource().getItems(),
-                        itemsReceptor));
+        receptor.getResource().setItems(this.involvedService.removeItems(receptor, itemsReceptor));
 
         for (Item item : solicitor.getResource().getItems()) {
             this.validateItems.addPoints(item);

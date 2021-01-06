@@ -11,7 +11,7 @@ public interface IInvolvedService {
 
     List<Item> addItems(Hospital solicitor, List<Item> offer);
 
-    List<Item> removeItems(List<Item> solicitor, List<Item> offer);
+    List<Item> removeItems(Hospital solicitor, List<Item> offer);
 
     List<Item> validateScoreHospitals(Hospital solicitor, InvolvedHospitalDTO offer);
 }

@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface IInvolvedService {
 
-    boolean validatePoints(List<Item> solicitorItems, List<Item> receptorItems, Hospital solicitor, Hospital receptor);
+    boolean validatePoints(List<Item> solicitorItems, List<Item> receptorItems, Hospital solicitor, Hospital recepto);
 
-    List<Item> addItems(List<Item> solicitor, List<Item> offer);
+    List<Item> addItems(Hospital solicitor, List<Item> offer);
 
     List<Item> removeItems(List<Item> solicitor, List<Item> offer);
 
-    List<Item> validateScoreHospitals(List<Item> solicitor, List<Item> offer);
+    List<Item> validateScoreHospitals(Hospital solicitor, InvolvedHospitalDTO offer);
 }

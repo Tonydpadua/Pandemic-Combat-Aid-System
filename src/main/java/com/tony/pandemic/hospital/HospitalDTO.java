@@ -20,11 +20,10 @@ public class HospitalDTO {
     private double percentageOfOccupation;
 
     public HospitalDTO(Hospital hospital) {
-        id = hospital.getId();
-        name = hospital.getName();
-        address = hospital.getAddress();
-        cnpj = hospital.getCnpj();
-        percentageOfOccupation = hospital.getPercentageOfOccupation();
+        this.id = hospital.getId();
+        this.name = hospital.getName();
+        this.address = hospital.getAddress();
+        this.cnpj = hospital.getCnpj();
+        this.percentageOfOccupation = hospital.getPercentageOfOccupation();
     }
-
 }

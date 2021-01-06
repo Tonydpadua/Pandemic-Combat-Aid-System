@@ -31,43 +31,29 @@ public class NegotiationServiceImpl implements INegotiationService {
         Hospital solicitor = this.hospitalService.findById(solicitorHospital.getIdHospital());
         Hospital receptor = this.hospitalService.findById(receptorHospital.getIdHospital());
 
-        List<Item> itemsSolicitor = this.involvedService.validateScoreHospitals
-                (solicitor.getResource().getItems(), solicitorHospital.getItems());
-        List<Item> itemsReceptor = this.involvedService.validateScoreHospitals
-                (receptor.getResource().getItems(), receptorHospital.getItems());
+        List<Item> itemsSolicitor = this.involvedService.validateScoreHospitals(solicitor, solicitorHospital);
+        List<Item> itemsReceptor = this.involvedService.validateScoreHospitals(receptor, receptorHospital);
 
-        if (itemsSolicitor.isEmpty() || itemsReceptor.isEmpty()) {
-            throw new EmptyException("It is not possible to trade for lack of items");
-        } else {
-            if (!this.involvedService.validatePoints(itemsSolicitor, itemsReceptor, solicitor, receptor)) {
-                throw new InvalidNegotiationException("It is not possible to trade for invalid points");
-            } else {
-                this.negotiationHistory.saveNegotiationHistory(solicitor, receptor);
-                solicitor.getResource()
-                        .setItems(this.involvedService.addItems(solicitor.getResource().getItems(),
-                                itemsReceptor));
+        this.involvedService.validatePoints(itemsSolicitor, itemsReceptor, solicitor, receptor);
 
-                solicitor.getResource()
-                        .setItems(this.involvedService.removeItems(solicitor.getResource().getItems(),
-                                itemsSolicitor));
+        solicitor.getResource().setItems(this.involvedService.addItems(solicitor, itemsReceptor));
 
-                receptor.getResource()
-                        .setItems(this.involvedService.addItems(receptor.getResource().getItems(),
-                                itemsSolicitor));
+        solicitor.getResource().setItems(this.involvedService.removeItems(solicitor.getResource().getItems(),
+                        itemsSolicitor));
 
-                receptor.getResource()
-                        .setItems(this.involvedService.removeItems(receptor.getResource().getItems(),
-                                itemsReceptor));
+        receptor.getResource().setItems(this.involvedService.addItems(receptor, itemsSolicitor));
 
-                for (Item item : solicitor.getResource().getItems()) {
-                    this.validateItems.addPoints(item);
-                }
-                for (Item item : receptor.getResource().getItems()) {
-                    this.validateItems.addPoints(item);
-                }
-                this.hospitalRepository.save(solicitor);
-                this.hospitalRepository.save(receptor);
-            }
+        receptor.getResource().setItems(this.involvedService.removeItems(receptor.getResource().getItems(),
+                        itemsReceptor));
+
+        for (Item item : solicitor.getResource().getItems()) {
+            this.validateItems.addPoints(item);
         }
+        for (Item item : receptor.getResource().getItems()) {
+            this.validateItems.addPoints(item);
+        }
+        this.negotiationHistory.saveNegotiationHistory(solicitor, receptor);
+        this.hospitalRepository.save(solicitor);
+        this.hospitalRepository.save(receptor);
     }
 }

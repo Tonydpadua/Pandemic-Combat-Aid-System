@@ -2,16 +2,17 @@ package com.tony.pandemic.hospital;
 
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class Hospital implements Serializable {
 

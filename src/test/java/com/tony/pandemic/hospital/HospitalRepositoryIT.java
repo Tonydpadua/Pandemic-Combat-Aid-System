@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @DataJpaTest
 public class HospitalRepositoryIT {
 
@@ -25,13 +27,13 @@ public class HospitalRepositoryIT {
     public void findById() {
         this.createHospital();
         List<Hospital> hospitals = this.repository.findAll();
-        org.assertj.core.api.Assertions.assertThat(hospitals.size()).isEqualTo(1);
+        assertThat(hospitals.size()).isEqualTo(1);
     }
 
     @Test
     public void save() {
         this.createHospital();
-        org.assertj.core.api.Assertions.assertThat(hospital.getName()).isEqualTo("Hospital Samaritano");
+        assertThat(hospital.getName()).isEqualTo("Hospital Samaritano");
     }
 
     private void createHospital() {

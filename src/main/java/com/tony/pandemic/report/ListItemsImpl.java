@@ -3,6 +3,7 @@ package com.tony.pandemic.report;
 import com.tony.pandemic.hospital.Hospital;
 import com.tony.pandemic.hospital.IHospitalService;
 import com.tony.pandemic.util.Messages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -11,14 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class ListItemsImpl implements IListItems{
 
-    private IHospitalService hospitalService;
-    private DecimalFormat formatter = new DecimalFormat("0.00");
-
-    public ListItemsImpl(IHospitalService hospitalService) {
-        this.hospitalService = hospitalService;
-    }
+    private final IHospitalService hospitalService;
+    private final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     @Override
     public Map<String, String> listItens() {
@@ -61,35 +59,35 @@ public class ListItemsImpl implements IListItems{
             list.put(Messages.ITEM_DOCTOR, "0.00");
         } else {
             double valor = doctorAmount / totalHospitals;
-            String result = this.formatter.format(valor);
+            String result = this.decimalFormat.format(valor);
             list.put(Messages.ITEM_DOCTOR, result);
         }
         if (nurseAmount == 0) {
             list.put(Messages.ITEM_NURSE, "0.00");
         } else {
             double valor = nurseAmount / totalHospitals;
-            String result = this.formatter.format(valor);
+            String result = this.decimalFormat.format(valor);
             list.put(Messages.ITEM_NURSE, result);
         }
         if (respiratorAmount == 0) {
             list.put(Messages.ITEM_RESPIRATOR, "0.00");
         } else {
             double valor = respiratorAmount / totalHospitals;
-            String result = this.formatter.format(valor);
+            String result = this.decimalFormat.format(valor);
             list.put(Messages.ITEM_RESPIRATOR, result);
         }
         if (tomographAmount == 0) {
             list.put(Messages.ITEM_TOMOGRAPH, "0.00");
         } else {
             double valor = tomographAmount / totalHospitals;
-            String result = this.formatter.format(valor);
+            String result = this.decimalFormat.format(valor);
             list.put(Messages.ITEM_TOMOGRAPH, result);
         }
         if (ambulanceAmount == 0) {
             list.put(Messages.ITEM_AMBULANCE, "0.00");
         } else {
             double valor = ambulanceAmount / totalHospitals;
-            String result = this.formatter.format(valor);
+            String result = this.decimalFormat.format(valor);
             list.put(Messages.ITEM_AMBULANCE, result);
         }
         return list;

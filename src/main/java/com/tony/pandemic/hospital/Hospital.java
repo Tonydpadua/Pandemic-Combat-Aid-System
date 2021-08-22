@@ -1,5 +1,7 @@
 package com.tony.pandemic.hospital;
 
+import com.tony.pandemic.hospital.dto.HospitalDTO;
+import com.tony.pandemic.hospital.dto.HospitalNewDTO;
 import com.tony.pandemic.localization.Localization;
 import com.tony.pandemic.resource.Resource;
 import lombok.*;
@@ -9,16 +11,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Hospital implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -54,5 +59,27 @@ public class Hospital implements Serializable {
         this.percentageOfOccupation = percentageOfOccupation;
         this.localization = localization;
         this.resource = resource;
+    }
+
+    public static Hospital from(HospitalDTO hospitalDTO) {
+        return Hospital.builder()
+                .id(hospitalDTO.getId())
+                .name(hospitalDTO.getName())
+                .address(hospitalDTO.getAddress())
+                .cnpj(hospitalDTO.getCnpj())
+                .percentageOfOccupation(hospitalDTO.getPercentageOfOccupation())
+                .build();
+    }
+
+    public static Hospital from(HospitalNewDTO hospitalNewDTO) {
+        return Hospital.builder()
+                .name(hospitalNewDTO.getName())
+                .address(hospitalNewDTO.getAddress())
+                .cnpj(hospitalNewDTO.getCnpj())
+                .percentageOfOccupation(hospitalNewDTO.getPercentageOfOccupation())
+                .localization(Localization.from(hospitalNewDTO.getLocalization()))
+                .registrationTime(hospitalNewDTO.getRegistrationTime())
+                .resource(hospitalNewDTO.getResource())
+                .build();
     }
 }

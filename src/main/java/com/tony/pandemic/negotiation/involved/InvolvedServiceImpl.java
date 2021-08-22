@@ -6,16 +6,19 @@ import com.tony.pandemic.hospital.Hospital;
 import com.tony.pandemic.item.Item;
 import com.tony.pandemic.item.ValidateItems;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class InvolvedServiceImpl implements IInvolvedService {
 
-    private ValidateItems validateitems;
+
+    private final ValidateItems validateitems;
 
     @Override
     public boolean validatePoints(List<Item> solicitorItems, List<Item> receptorItems, Hospital solicitor, Hospital receptor) {
@@ -74,7 +77,7 @@ public class InvolvedServiceImpl implements IInvolvedService {
         List<Item> offerItems = offer.getItems();
 
         if (solicitorItems.isEmpty() || offerItems.isEmpty()) {
-            throw new EmptyException("It is not possible to trade for lack of items");
+            throw new EmptyException("It is not possible to trade due to the lack of items");
         }
         List<Item> finalitems = new ArrayList<>();
         for (int i = 0; i < solicitorItems.size(); i++) {
@@ -95,7 +98,7 @@ public class InvolvedServiceImpl implements IInvolvedService {
                 }
             }
         }
-        finalitems.removeIf(n -> (n == null));
+        finalitems.removeIf(Objects::isNull);
         if (finalitems.size() < offerItems.size()) {
             throw new InvalidNegotiationException("The total number of items does not remain the same");
         }

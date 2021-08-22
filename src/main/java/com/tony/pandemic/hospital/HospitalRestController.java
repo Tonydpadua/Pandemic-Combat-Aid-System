@@ -1,51 +1,55 @@
 package com.tony.pandemic.hospital;
 
-import lombok.AllArgsConstructor;
+import com.tony.pandemic.hospital.dto.HospitalDTO;
+import com.tony.pandemic.hospital.dto.HospitalDetailedDTO;
+import com.tony.pandemic.hospital.dto.HospitalNewDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(value = "/hospitals")
 public class HospitalRestController {
 
-    private IHospitalService service;
+
+    private final IHospitalService hospitalService;
 
     @GetMapping
     public ResponseEntity<List<HospitalDTO>> findAll() {
-        List<Hospital> hospitals = this.service.findAll();
-        List<HospitalDTO> listDTO = hospitals.stream().map(obj -> new HospitalDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDTO);
+        return ResponseEntity.ok().body(this.hospitalService.findAll().stream().map(HospitalDTO::from).collect(Collectors.toList()));
     }
 
-    @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody HospitalNewDTO hospitalNewDTO) {
-        Hospital obj = this.service.fromDTO(hospitalNewDTO);
-        obj = this.service.save(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HospitalDetailedDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(HospitalDetailedDTO.from(this.hospitalService.findById(id)));
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Hospital> findById(@PathVariable Long id) {
-        Hospital hospital = this.service.findById(id);
-        return ResponseEntity.ok().body(hospital);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void save(@Valid @RequestBody HospitalNewDTO hospitalNewDTO) {
+        this.hospitalService.save(Hospital.from(hospitalNewDTO));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/occupation/{id}")
-    public ResponseEntity<Void> updateOccupation(@PathVariable Long id, @RequestBody HospitalDTO hospitalDTO) {
-        Hospital hospital = this.service.fromDTO(hospitalDTO);
-        this.service.updateOccupation(hospital, id);
-        return ResponseEntity.noContent().build();
+    public void updateOccupation(@PathVariable Long id, @RequestBody HospitalDTO hospitalDTO) {
+        this.hospitalService.updateOccupation(Hospital.from(hospitalDTO), id);
     }
 
     @GetMapping(value = "/page")
@@ -54,9 +58,6 @@ public class HospitalRestController {
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-        Page<Hospital> list = this.service.findPage(page, linesPerPage, orderBy, direction);
-        Page<HospitalDTO> listDto = list.map(obj -> new HospitalDTO(obj));
-        return ResponseEntity.ok().body(listDto);
+        return ResponseEntity.ok().body(this.hospitalService.findPage(page, linesPerPage, orderBy, direction).map(HospitalDTO::from));
     }
-
 }

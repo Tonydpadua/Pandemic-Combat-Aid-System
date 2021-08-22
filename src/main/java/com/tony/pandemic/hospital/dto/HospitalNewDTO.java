@@ -1,8 +1,11 @@
-package com.tony.pandemic.hospital;
+package com.tony.pandemic.hospital.dto;
 
-import com.tony.pandemic.localization.Localization;
+import com.tony.pandemic.localization.dto.LocalizationDTO;
 import com.tony.pandemic.resource.Resource;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -33,7 +36,7 @@ public class HospitalNewDTO implements Serializable {
 
     private LocalDateTime registrationTime;
 
-    private Localization localization;
+    private LocalizationDTO localization;
 
     private Resource resource;
 

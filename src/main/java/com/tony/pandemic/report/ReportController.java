@@ -1,23 +1,21 @@
 package com.tony.pandemic.report;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@AllArgsConstructor
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(value = "/hospitals/reports")
 public class ReportController {
 
-    private IReportService service;
+    private final IReportService reportService;
 
     @GetMapping
     public ResponseEntity<Report> generateReport() {
-
-        Report report = this.service.makeReport();
-        return ResponseEntity.ok().body(report);
+        return ResponseEntity.ok().body(this.reportService.makeReport());
     }
 
 }

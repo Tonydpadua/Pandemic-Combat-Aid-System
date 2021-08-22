@@ -1,11 +1,8 @@
 package com.tony.pandemic.hospital;
 
 import com.tony.pandemic.exception.ObjectNotFoundException;
-import com.tony.pandemic.item.Item;
 import com.tony.pandemic.item.ValidateItems;
-import com.tony.pandemic.localization.Localization;
-import com.tony.pandemic.resource.Resource;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,68 +11,46 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class HospitalServiceImpl implements IHospitalService {
 
-    private IHospitalRepository repository;
 
-    private ValidateItems validateItems;
+    private final IHospitalRepository hospitalRepository;
+
+    private final ValidateItems validateItems;
 
     @Override
     public List<Hospital> findAll() {
-        return this.repository.findAll();
+        return this.hospitalRepository.findAll();
     }
 
     @Override
     public Hospital findById(Long id) {
-        Optional<Hospital> hospital = this.repository.findById(id);
-        return hospital.orElseThrow(() -> new ObjectNotFoundException
-                ("Object not found! Id: " + id + ", Type: " + Hospital.class.getName()));
+        return this.hospitalRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException
+                ("Hospital not found! Id: " + id));
     }
 
     @Transactional
     @Override
     public Hospital save(Hospital hospital) {
-        List<Item> Items = hospital.getResource().getItems();
+        hospital.getResource().getItems().forEach(this.validateItems::addPoints);
 
-        for (int i = 0; i < Items.size(); i++) {
-            this.validateItems.addPoints(Items.get(i));
-        }
-        hospital.getResource().setItems(Items);
+        hospital.getResource().setItems(hospital.getResource().getItems());
         hospital.setRegistrationTime(LocalDateTime.now());
-        return this.repository.save(hospital);
+        return this.hospitalRepository.save(hospital);
     }
 
     @Override
     public void updateOccupation(Hospital hospital, Long id) {
         this.findById(id);
-        this.repository.updateOccupation(hospital.getPercentageOfOccupation(), id);
-    }
-
-    @Override
-    public Hospital fromDTO(HospitalNewDTO objNewDTO) {
-        Localization localization = new Localization(null, objNewDTO.getLocalization()
-                .getLatitude(), objNewDTO.getLocalization().getLongitude());
-        Resource resource = new Resource(null, objNewDTO.getResource().getItems());
-        Hospital hospital = new Hospital(null, objNewDTO.getName(), objNewDTO.getAddress(), objNewDTO.getCnpj(),
-                objNewDTO.getPercentageOfOccupation(), localization, resource);
-        return hospital;
-    }
-
-    @Override
-    public Hospital fromDTO(HospitalDTO objDTO) {
-        return new Hospital(objDTO.getName(), objDTO.getAddress(), objDTO.getCnpj(),
-                objDTO.getPercentageOfOccupation());
+        this.hospitalRepository.updateOccupation(hospital.getPercentageOfOccupation(), id);
     }
 
     @Override
     public Page<Hospital> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return this.repository.findAll(pageRequest);
+        return this.hospitalRepository.findAll(PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy));
     }
-
 }
 

@@ -3,6 +3,10 @@ package com.tony.pandemic.hospital;
 import com.tony.pandemic.hospital.dto.HospitalDTO;
 import com.tony.pandemic.hospital.dto.HospitalDetailedDTO;
 import com.tony.pandemic.hospital.dto.HospitalNewDTO;
+import com.tony.pandemic.negotiation.INegotiationService;
+import com.tony.pandemic.negotiation.involved.InvolvedHospitalDTO;
+import com.tony.pandemic.report.IReportService;
+import com.tony.pandemic.report.Report;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,10 +33,21 @@ public class HospitalRestController {
 
 
     private final IHospitalService hospitalService;
+    private final IReportService reportService;
+    private final INegotiationService negotiationHospitals;
 
     @GetMapping
     public ResponseEntity<List<HospitalDTO>> findAll() {
         return ResponseEntity.ok().body(this.hospitalService.findAll().stream().map(HospitalDTO::from).collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/page")
+    public ResponseEntity<Page<HospitalDTO>> findPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        return ResponseEntity.ok().body(this.hospitalService.findPage(page, linesPerPage, orderBy, direction).map(HospitalDTO::from));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,12 +67,14 @@ public class HospitalRestController {
         this.hospitalService.updateOccupation(Hospital.from(hospitalDTO), id);
     }
 
-    @GetMapping(value = "/page")
-    public ResponseEntity<Page<HospitalDTO>> findPage(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-        return ResponseEntity.ok().body(this.hospitalService.findPage(page, linesPerPage, orderBy, direction).map(HospitalDTO::from));
+    @PostMapping(value = "/negotiation")
+    @ResponseStatus(HttpStatus.OK)
+    public void negotiationHospitals(@RequestBody List<InvolvedHospitalDTO> involvedHospitals) {
+        this.negotiationHospitals.negotiationHospitals(involvedHospitals.get(0), involvedHospitals.get(1));
+    }
+
+    @GetMapping(value = "/reports")
+    public ResponseEntity<Report> generateReport() {
+        return ResponseEntity.ok().body(this.reportService.makeReport());
     }
 }
